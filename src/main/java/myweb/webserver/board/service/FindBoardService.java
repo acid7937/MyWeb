@@ -19,6 +19,4 @@ public class FindBoardService {
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.BOARD_NOT_FOUND));
 
     }
-
-
 }

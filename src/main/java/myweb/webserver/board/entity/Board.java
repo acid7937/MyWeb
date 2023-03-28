@@ -5,10 +5,11 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import myweb.webserver.reply.entity.Reply;
+
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter @Setter
@@ -16,7 +17,7 @@ import javax.persistence.Id;
 public class Board {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long boardId;
     @Column
     private String title;
@@ -25,6 +26,11 @@ public class Board {
     @Column
     private String member;
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "board", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    private List<Reply> replies = new ArrayList<>();
+
+
+    //아래 전부 @PostConstruct 쓸려고 추가함.
     @Builder
     public Board(String title, String content, String member) {
         this.title = title;
